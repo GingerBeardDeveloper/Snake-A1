@@ -1,4 +1,4 @@
-package com.gbdevelopment.snake;
+package com.gamecodeschool.c17snake;
 
 import android.content.Context;
 import android.graphics.Bitmap;
