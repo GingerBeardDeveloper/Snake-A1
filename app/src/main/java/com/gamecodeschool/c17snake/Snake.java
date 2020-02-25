@@ -13,6 +13,9 @@ import java.util.ArrayList;
 
 class Snake {
 
+    // TODO: Add documentation comments
+    // TODO: Refactor to be object oriented code
+
     // The location in the grid of all the segments
     private ArrayList<Point> segmentLocations;
 

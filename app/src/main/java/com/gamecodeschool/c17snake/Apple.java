@@ -10,6 +10,9 @@ import java.util.Random;
 
 class Apple {
 
+    // TODO: Add documentation comments
+    // TODO: Refactor to be object oriented code
+
     // The location of the apple on the grid
     // Not in pixels
     private Point location = new Point();

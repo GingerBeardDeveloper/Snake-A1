@@ -1,6 +1,8 @@
 package com.gamecodeschool.c17snake;
 
 abstract class Point {
+
+    // TODO: Add documentation comments
     // Every point has an x and y value
     private float x, y;
 
@@ -23,6 +25,10 @@ abstract class Point {
         return x;
     }
 
+    /**
+     *
+     * @return Returns point y value
+     */
     public float getY() {
         return y;
     }

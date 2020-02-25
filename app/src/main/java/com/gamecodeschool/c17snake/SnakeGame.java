@@ -19,6 +19,9 @@ import java.io.IOException;
 
 class SnakeGame extends SurfaceView implements Runnable {
 
+    // TODO: Add documentation comments
+    // TODO: Refactor to utilize object oriented classes
+
     // Objects for the game loop/thread
     private Thread mThread = null;
     // Control pausing between updates
