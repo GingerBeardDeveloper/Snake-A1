@@ -9,4 +9,9 @@ abstract class GameObject {
         // TODO: implement GameObject constructor
     }
 
+    // TODO: Add BMap code here
+    protected void setupBMap() {
+
+    }
+
 }

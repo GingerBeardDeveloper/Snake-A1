@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 
 class Snake {
+    private Head head;
 
     // TODO: Add documentation comments
     // TODO: Refactor to be object oriented code
