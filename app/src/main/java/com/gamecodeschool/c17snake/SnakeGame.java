@@ -97,7 +97,8 @@ class SnakeGame extends SurfaceView implements Runnable {
         mPaint = new Paint();
 
         // Call the constructors of our two game objects
-        //mApple = new Apple(context, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), blockSize);
+        mApple = new Apple(context, new Point(NUM_BLOCKS_WIDE,
+                mNumBlocksHigh), blockSize, true);
 
         mSnake = new Snake(context,
                 new Point(NUM_BLOCKS_WIDE,
@@ -212,7 +213,7 @@ class SnakeGame extends SurfaceView implements Runnable {
             mCanvas.drawText("" + mScore, 20, 120, mPaint);
 
             // Draw the apple and the snake
-            //mApple.draw(mCanvas, mPaint);
+            mApple.draw(mCanvas, mPaint);
             mSnake.draw(mCanvas, mPaint);
 
             // Draw some text while paused

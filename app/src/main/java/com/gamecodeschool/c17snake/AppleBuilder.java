@@ -19,6 +19,10 @@ class AppleBuilder {
     private boolean good;
     private Random rand = new Random();
 
+    AppleBuilder(Context context) {
+        this.context = context;
+    }
+
     AppleBuilder(Context context, Point sr, int s, boolean good) {
         this.context = context;
         this.spawnRange = sr;

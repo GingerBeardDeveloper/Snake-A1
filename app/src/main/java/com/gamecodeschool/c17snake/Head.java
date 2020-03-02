@@ -121,5 +121,6 @@ class Head extends MoveableObject {
         mBitmapHeadDown = Bitmap
                 .createBitmap(mBitmapHeadRight,
                         0, 0, s, s, matrix, true);
+        mBitmap = mBitmapHeadRight;
     }
 }
