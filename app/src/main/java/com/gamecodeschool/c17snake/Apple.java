@@ -6,27 +6,25 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.widget.Switch;
+
 import java.util.Random;
 
-class Apple {
+class Apple extends GameObject {
 
-    // TODO: Add documentation comments
-    // TODO: Refactor to be object oriented code
-
-    // The location of the apple on the grid
-    // Not in pixels
-    private Point location = new Point();
 
     // The range of values we can choose from
     // to spawn an apple
     private Point mSpawnRange;
-    private int mSize;
 
-    // An image to represent the apple
-    private Bitmap mBitmapApple;
+    // Is the apple a bad apple
+    private boolean isGood;
+
+    private int points;
+    private Random rand;
 
     /// Set up the apple in the constructor
-    Apple(Context context, Point sr, int s){
+    Apple(Context context, Point sr, int s, boolean good){
 
         // Make a note of the passed in spawn range
         mSpawnRange = sr;
@@ -35,11 +33,15 @@ class Apple {
         // Hide the apple off-screen until the game starts
         location.x = -10;
 
-        // Load the image to the bitmap
-        mBitmapApple = BitmapFactory.decodeResource(context.getResources(), R.drawable.apple);
+        isGood = good;
+        if (good) {
+            points = rand.nextInt(3) + 1;
+        } else {
+            points = -2;
+        }
 
-        // Resize the bitmap
-        mBitmapApple = Bitmap.createScaledBitmap(mBitmapApple, s, s, false);
+        // Load the image to the bitmap
+        setmBitmap(context, s);
     }
 
     // This is called every time an apple is eaten
@@ -50,17 +52,31 @@ class Apple {
         location.y = random.nextInt(mSpawnRange.y - 1) + 1;
     }
 
-    // Let SnakeGame know where the apple is
-    // SnakeGame can share this with the snake
-    Point getLocation(){
-        return location;
+    public boolean isGood() {
+        return isGood;
     }
 
-    // Draw the apple
-    void draw(Canvas canvas, Paint paint){
-        canvas.drawBitmap(mBitmapApple,
-                location.x * mSize, location.y * mSize, paint);
+    @Override
+    void setmBitmap(Context context, int s) {
+        if (isGood) {
+            switch (points) {
+                case 1:
+                    mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.apple);
+                    break;
+                case 2:
+                    mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.apple2points);
+                    break;
+                case 3:
+                    mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.apple3points);
+                    break;
 
+            }
+        }
+        else {
+            mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.badapple);
+        }
+        // Resize the bitmap
+
+        mBitmap = Bitmap.createScaledBitmap(mBitmap, s, s, false);
     }
-
 }

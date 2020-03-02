@@ -8,10 +8,10 @@ abstract class MoveableObject extends GameObject {
     }
 
     // For tracking movement Heading
-    private enum Heading {
+    protected enum Heading {
         UP, RIGHT, DOWN, LEFT
     }
-    private Heading heading;
+    protected Heading heading;
 
     /**
      *

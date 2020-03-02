@@ -1,51 +1,125 @@
 package com.gamecodeschool.c17snake;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Point;
 
-class Head extends MoveableObject implements IMovable {
+class Head extends MoveableObject {
     // TODO: Add documentation comments
 
     // TODO: Define file for BMap
+    // A bitmap for each direction the head can face
+    private Bitmap mBitmapHeadRight;
+    private Bitmap mBitmapHeadLeft;
+    private Bitmap mBitmapHeadUp;
+    private Bitmap mBitmapHeadDown;
 
-    // Taken from snake.java source code
+    // How big is the entire grid
+    private Point mMoveRange;
+
+    Head(Context context, Point sr, int s) {
+        mSize = s;
+        mMoveRange = sr;
+        heading = Heading.RIGHT;
+
+        setmBitmap(context, s);
+    }
+
     @Override
-    public void move() {
-        /*
-        // Move the body
-        // Start at the back and move it
-        // to the position of the segment in front of it
-        for (int i = segmentLocations.size() - 1; i > 0; i--) {
+    public void rotateHeading(boolean clockwise) {
+        if (clockwise) {
+            switch (heading) {
+                // Rotate clockwise
+                case UP:
+                    heading = Heading.RIGHT;
+                    mBitmap = mBitmapHeadRight;
+                    break;
+                case RIGHT:
+                    heading = Heading.DOWN;
+                    mBitmap = mBitmapHeadDown;
+                    break;
+                case DOWN:
+                    heading = Heading.LEFT;
+                    mBitmap = mBitmapHeadLeft;
+                    break;
+                case LEFT:
+                    heading = Heading.UP;
+                    mBitmap = mBitmapHeadUp;
+                    break;
 
-            // Make it the same value as the next segment
-            // going forwards towards the head
-            segmentLocations.get(i).x = segmentLocations.get(i - 1).x;
-            segmentLocations.get(i).y = segmentLocations.get(i - 1).y;
+            }
+        } else {
+            // Rotate counter-clockwise
+            switch (heading) {
+                case UP:
+                    heading = Heading.LEFT;
+                    mBitmap = mBitmapHeadLeft;
+                    break;
+                case LEFT:
+                    heading = Heading.DOWN;
+                    mBitmap = mBitmapHeadDown;
+                    break;
+                case DOWN:
+                    heading = Heading.RIGHT;
+                    mBitmap = mBitmapHeadRight;
+                    break;
+                case RIGHT:
+                    heading = Heading.UP;
+                    mBitmap = mBitmapHeadUp;
+                    break;
+            }
         }
+    }
 
-        // Move the head in the appropriate heading
-        // Get the existing head position
-        Point p = segmentLocations.get(0);
+    @Override
+    void setmBitmap(Context context, int s) {
+        // Create and scale the bitmaps
+        mBitmapHeadRight = BitmapFactory
+                .decodeResource(context.getResources(),
+                        R.drawable.head);
 
-        // Move it appropriately
-        switch (heading) {
-            case UP:
-                p.y--;
-                break;
+        // Create 3 more versions of the head for different headings
+        mBitmapHeadLeft = BitmapFactory
+                .decodeResource(context.getResources(),
+                        R.drawable.head);
 
-            case RIGHT:
-                p.x++;
-                break;
+        mBitmapHeadUp = BitmapFactory
+                .decodeResource(context.getResources(),
+                        R.drawable.head);
 
-            case DOWN:
-                p.y++;
-                break;
+        mBitmapHeadDown = BitmapFactory
+                .decodeResource(context.getResources(),
+                        R.drawable.head);
 
-            case LEFT:
-                p.x--;
-                break;
-        }
+        // Modify the bitmaps to face the snake head
+        // in the correct direction
+        mBitmapHeadRight = Bitmap
+                .createScaledBitmap(mBitmapHeadRight,
+                        s, s, false);
 
-         */
+        // A matrix for scaling
+        Matrix matrix = new Matrix();
+        matrix.preScale(-1, 1);
 
+        mBitmapHeadLeft = Bitmap
+                .createBitmap(mBitmapHeadRight,
+                        0, 0, s, s, matrix, true);
+
+        // A matrix for rotating
+        matrix.preRotate(-90);
+        mBitmapHeadUp = Bitmap
+                .createBitmap(mBitmapHeadRight,
+                        0, 0, s, s, matrix, true);
+
+        // Matrix operations are cumulative
+        // so rotate by 180 to face down
+        matrix.preRotate(180);
+        mBitmapHeadDown = Bitmap
+                .createBitmap(mBitmapHeadRight,
+                        0, 0, s, s, matrix, true);
     }
 }
