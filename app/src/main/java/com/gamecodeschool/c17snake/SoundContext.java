@@ -1,5 +1,6 @@
 package com.gamecodeschool.c17snake;
 
+// Allows our game to support different versions of android
 public class SoundContext {
     private SoundStrategy strategy;
 

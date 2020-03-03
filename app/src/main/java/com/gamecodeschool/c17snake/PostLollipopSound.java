@@ -10,7 +10,8 @@ import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
 
-//Class is instantiated when Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+// Class is instantiated when Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+// Concrete implementation of the SoundStrategy interface when condition above holds
 public class PostLollipopSound implements SoundStrategy {
 
     // for playing sound effects
@@ -18,9 +19,9 @@ public class PostLollipopSound implements SoundStrategy {
     private int mEat_ID = -1;
     private int mCrashID = -1;
 
+    // Builds the environment for sounds
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public PostLollipopSound() {
-
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -32,6 +33,7 @@ public class PostLollipopSound implements SoundStrategy {
                 .build();
     }
 
+    // Connects the sound to the context
     @Override
     public void prepareSounds(AssetManager assetManager) {
         try {
@@ -51,7 +53,6 @@ public class PostLollipopSound implements SoundStrategy {
     public void playEatAppleSound() {
         this.mSP.play(this.mEat_ID, 1, 1, 0, 0, 1);
     }
-
     public void playDeathSound() {
         this.mSP.play(mCrashID, 1, 1, 0, 0, 1);
     }
