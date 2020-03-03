@@ -7,9 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Build;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -35,6 +32,9 @@ class SnakeGame extends SurfaceView implements Runnable {
     // The size in segments of the playable area
     private final int NUM_BLOCKS_WIDE = 40;
     private int mNumBlocksHigh;
+    private Point mSize;
+    Context context;
+    int blockSize;
 
     // How many points does the player have
     private int mScore;
@@ -48,18 +48,18 @@ class SnakeGame extends SurfaceView implements Runnable {
     private Snake mSnake;
 
     // Array list of apples
-    private ArrayList<Apple> mApples;
-    // And an apple
-    private Apple mApple;
+    private ArrayList<Apple> mApples = new ArrayList<>();
 
 
     // This is the constructor method that gets called
     // from SnakeActivity
     public SnakeGame(Context context, Point size) {
         super(context);
+        this.context = context;
 
+        mSize = size;
         // Work out how many pixels each block is
-        int blockSize = size.x / NUM_BLOCKS_WIDE;
+        blockSize = size.x / NUM_BLOCKS_WIDE;
         // How many blocks of the same size will fit into the height
         mNumBlocksHigh = size.y / blockSize;
 
@@ -79,9 +79,10 @@ class SnakeGame extends SurfaceView implements Runnable {
         mPaint = new Paint();
 
         // Call the constructors of our two game objects
-        mApple = new Apple(context, new Point(NUM_BLOCKS_WIDE,
-                mNumBlocksHigh), blockSize, true);
-        mApple.spawn();
+        mApples.add(new AppleBuilder(context).setSize(blockSize).setSpawnRange(new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh)).build());
+
+        mApples.get(0).spawn();
+
 
         mSnake = new Snake(context,
                 new Point(NUM_BLOCKS_WIDE,
@@ -96,7 +97,7 @@ class SnakeGame extends SurfaceView implements Runnable {
         mSnake.reset(NUM_BLOCKS_WIDE, mNumBlocksHigh);
 
         // Get the apple ready for dinner
-        //mApple.spawn();
+        mApples.get(0).spawn();
 
         // Reset the mScore
         mScore = 0;
@@ -151,18 +152,23 @@ class SnakeGame extends SurfaceView implements Runnable {
         // Move the snake
         mSnake.move();
 
-        // Did the head of the snake eat the apple?
-        if(mSnake.checkDinner(mApple.getLocation())){
-            // This reminds me of Edge of Tomorrow.
-            // One day the apple will be ready!
-            mApple.spawn();
+        for (int i = 0; i < mApples.size(); i++) {
+            // Did the head of the snake eat the apple?
+            if(mSnake.checkDinner(mApples.get(i).getLocation())){
+                // This reminds me of Edge of Tomorrow.
+                // One day the apple will be ready!
 
-            // Add to  mScore
-            mScore = mScore + 1;
 
-            // Play a sound
-            this.soundCtx.getStrategy().playEatAppleSound();
+                // Add to  mScore
+                mScore = mScore + 1;
+
+                // Play a sound
+                this.soundCtx.getStrategy().playEatAppleSound();
+                mApples.set(i, new AppleBuilder(context).setSize(blockSize).setSpawnRange(mSize).build());
+            }
         }
+
+
 
         // Did the snake die?
         if (mSnake.detectDeath()) {
@@ -189,8 +195,11 @@ class SnakeGame extends SurfaceView implements Runnable {
             mCanvas.drawText("" + mScore, 20, 120, mPaint);
 
             // Draw the apple and the snake
-            mApple.draw(mCanvas, mPaint);
-            mSnake.draw(mCanvas, mPaint);
+            mApples.get(0).draw(mCanvas, mPaint);
+            for (int i = 0; i < mApples.size(); i++) {
+                mApples.get(i).draw(mCanvas, mPaint);
+            }
+                mSnake.draw(mCanvas, mPaint);
 
             // Draw some text while paused
             if(mPaused){

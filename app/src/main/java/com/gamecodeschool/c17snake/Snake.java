@@ -119,8 +119,8 @@ class Snake extends MoveableObject {
             } else {
                 point = segments.get(0).location;
             }*/
-            segments.add(new Segment(context, l, mSegmentSize));
-            segments.get(segments.size() - 1).heading = segments.get(segments.size() - 2).heading;
+            //segments.add(new Segment(context, l, mSegmentSize));
+            //segments.get(segments.size() - 1).heading = segments.get(segments.size() - 2).heading;
             return true;
         }
         return false;

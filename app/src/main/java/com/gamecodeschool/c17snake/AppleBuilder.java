@@ -17,7 +17,6 @@ class AppleBuilder {
     private Point spawnRange;
     private int size;
     private boolean good;
-    private Random rand = new Random();
 
     AppleBuilder(Context context) {
         this.context = context;
@@ -31,24 +30,27 @@ class AppleBuilder {
         this.good = good;
     }
 
-    public void setLocation(Point location) {
+    public AppleBuilder setLocation(Point location) {
         this.location = location;
+        return this;
     }
 
-    public void setSpawnRange(Point spawnRange) {
+    public AppleBuilder setSpawnRange(Point spawnRange) {
         this.spawnRange = spawnRange;
+        return this;
     }
 
-    public void setSize(int size) {
+    public AppleBuilder setSize(int size) {
         this.size = size;
+        return this;
     }
 
     public Apple build() {
         // Randomly decides if apple is bad with 20% chance to be a bad apple
-        int isBad = rand.nextInt(5);
-        if (isBad == 0) {
-            good = false;
-        }
+        //int isBad = new Random().nextInt(5) + 1;
+        //if (isBad == 0) {
+            good = true;
+        //}
         return new Apple(context, spawnRange, size, good);
     }
 }

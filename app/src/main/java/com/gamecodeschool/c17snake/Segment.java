@@ -13,6 +13,7 @@ class Segment extends MoveableObject implements IMovable{
 
     public Segment(Context context, Point sr, int s) {
 
+        mSize = s;
         mMoveRange = sr;
         setmBitmap(context, s);
         setLocation(sr);

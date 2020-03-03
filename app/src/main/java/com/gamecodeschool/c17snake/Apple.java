@@ -43,6 +43,7 @@ class Apple extends GameObject {
 
         // Load the image to the bitmap
         setmBitmap(context, s);
+        spawn();
     }
 
     // This is called every time an apple is eaten
