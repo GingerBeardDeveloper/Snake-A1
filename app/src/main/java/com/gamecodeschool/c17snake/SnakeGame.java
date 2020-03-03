@@ -1,7 +1,6 @@
 package com.gamecodeschool.c17snake;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,8 +10,6 @@ import android.os.Build;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 class SnakeGame extends SurfaceView implements Runnable {
