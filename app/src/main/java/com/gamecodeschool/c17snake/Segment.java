@@ -15,6 +15,7 @@ class Segment extends MoveableObject implements IMovable{
 
         mMoveRange = sr;
         setmBitmap(context, s);
+        setLocation(sr);
     }
 
     @Override

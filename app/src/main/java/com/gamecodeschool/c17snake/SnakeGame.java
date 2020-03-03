@@ -16,6 +16,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 class SnakeGame extends SurfaceView implements Runnable {
 
@@ -45,6 +46,9 @@ class SnakeGame extends SurfaceView implements Runnable {
 
     // A snake ssss
     private Snake mSnake;
+
+    // Array list of apples
+    private ArrayList<Apple> mApples;
     // And an apple
     private Apple mApple;
 
@@ -77,6 +81,7 @@ class SnakeGame extends SurfaceView implements Runnable {
         // Call the constructors of our two game objects
         mApple = new Apple(context, new Point(NUM_BLOCKS_WIDE,
                 mNumBlocksHigh), blockSize, true);
+        mApple.spawn();
 
         mSnake = new Snake(context,
                 new Point(NUM_BLOCKS_WIDE,

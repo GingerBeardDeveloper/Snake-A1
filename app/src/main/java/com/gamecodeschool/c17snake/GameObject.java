@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 abstract class GameObject {
-    // TODO: Add documentation comments
     // The location of the apple on the grid
     // Not in pixels
     protected android.graphics.Point location = new Point();

@@ -9,9 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 class Head extends MoveableObject implements IMovable {
-    // TODO: Add documentation comments
-
-    // TODO: Define file for BMap
     // A bitmap for each direction the head can face
     private Bitmap mBitmapHeadRight;
     private Bitmap mBitmapHeadLeft;

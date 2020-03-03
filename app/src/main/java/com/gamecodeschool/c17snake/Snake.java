@@ -106,12 +106,21 @@ class Snake extends MoveableObject {
         if (segments.get(0).location.x == l.x &&
                 segments.get(0).location.y == l.y) {
 
-            // Add a new Point to the list
-            // located off-screen.
-            // This is OK because on the next call to
-            // move it will take the position of
-            // the segment in front of it
-            segments.add(new Segment(context, mMoveRange, mSegmentSize));
+            /* Add new segment
+            Point point;
+            if (segments.get(0).heading == Heading.RIGHT) {
+                point = new Point(segments.get(0).location.x + 1, segments.get(0).location.y);
+            } else if (segments.get(0).heading == Heading.LEFT) {
+                point = new Point(segments.get(0).location.x - 1, segments.get(0).location.y);
+            } else if (segments.get(0).heading == Heading.UP) {
+                point = new Point(segments.get(0).location.x, segments.get(0).location.y - 1);
+            } else if (segments.get(0).heading == Heading.DOWN) {
+                point = new Point(segments.get(0).location.x, segments.get(0).location.y + 1);
+            } else {
+                point = segments.get(0).location;
+            }*/
+            segments.add(new Segment(context, l, mSegmentSize));
+            segments.get(segments.size() - 1).heading = segments.get(segments.size() - 2).heading;
             return true;
         }
         return false;
