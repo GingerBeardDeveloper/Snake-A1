@@ -26,5 +26,9 @@ abstract class GameObject {
         return location;
     }
 
+    public void setLocation(Point point) {
+        location = point;
+    }
+
     abstract void setmBitmap(Context context, int s);
 }

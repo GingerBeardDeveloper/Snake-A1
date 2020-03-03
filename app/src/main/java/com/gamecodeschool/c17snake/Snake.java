@@ -15,12 +15,13 @@ import java.util.ArrayList;
 
 class Snake extends MoveableObject {
     private Head head;
+    Context context;
 
     // TODO: Add documentation comments
     // TODO: Refactor to be object oriented code
 
     // The location in the grid of all the segments
-    private ArrayList<Point> segmentLocations;
+    private ArrayList<MoveableObject> segments;
 
     // How big is each segment of the snake?
     private int mSegmentSize;
@@ -32,16 +33,13 @@ class Snake extends MoveableObject {
     // horizontally in pixels?
     private int halfWayPoint;
 
-    // A bitmap for the body
-    private Bitmap mBitmapBody;
-
 
     Snake(Context context, Point mr, int ss) {
-
+        this.context = context;
         head = new Head(context, mr, ss);
 
         // Initialize our ArrayList
-        segmentLocations = new ArrayList<>();
+        segments = new ArrayList<>();
 
         // Initialize the segment size and movement
         // range from the passed in parameters
@@ -60,23 +58,21 @@ class Snake extends MoveableObject {
         heading = Heading.RIGHT;
 
         // Delete the old contents of the ArrayList
-        segmentLocations.clear();
+        segments.clear();
 
         // Start with a single snake segment
-        segmentLocations.add(new Point(w / 2, h / 2));
+        segments.add(head);
+        head.setLocation(new Point(w / 2, h / 2));
     }
 
 
     public void move() {
+        head.move();
         // Move the body
         // Start at the back and move it
         // to the position of the segment in front of it
-        for (int i = segmentLocations.size() - 1; i > 0; i--) {
-
-            // Make it the same value as the next segment
-            // going forwards towards the head
-            segmentLocations.get(i).x = segmentLocations.get(i - 1).x;
-            segmentLocations.get(i).y = segmentLocations.get(i - 1).y;
+        for (int i = 1; i < segments.size(); i++) {
+            segments.get(i).heading = segments.get(i - 1).heading;
         }
     }
 
@@ -85,19 +81,19 @@ class Snake extends MoveableObject {
         boolean dead = false;
 
         // Hit any of the screen edges
-        if (segmentLocations.get(0).x == -1 ||
-                segmentLocations.get(0).x > mMoveRange.x ||
-                segmentLocations.get(0).y == -1 ||
-                segmentLocations.get(0).y > mMoveRange.y) {
+        if (head.location.x == -1 ||
+                head.location.x > mMoveRange.x ||
+                head.location.y == -1 ||
+                head.location.y > mMoveRange.y) {
 
             dead = true;
         }
 
         // Eaten itself?
-        for (int i = segmentLocations.size() - 1; i > 0; i--) {
+        for (int i = segments.size() - 1; i > 0; i--) {
             // Have any of the sections collided with the head
-            if (segmentLocations.get(0).x == segmentLocations.get(i).x &&
-                    segmentLocations.get(0).y == segmentLocations.get(i).y) {
+            if (segments.get(0).location.x == segments.get(i).location.x &&
+                    segments.get(0).location.y == segments.get(i).location.y) {
 
                 dead = true;
             }
@@ -107,15 +103,15 @@ class Snake extends MoveableObject {
 
     boolean checkDinner(Point l) {
         //if (snakeXs[0] == l.x && snakeYs[0] == l.y) {
-        if (segmentLocations.get(0).x == l.x &&
-                segmentLocations.get(0).y == l.y) {
+        if (segments.get(0).location.x == l.x &&
+                segments.get(0).location.y == l.y) {
 
             // Add a new Point to the list
             // located off-screen.
             // This is OK because on the next call to
             // move it will take the position of
             // the segment in front of it
-            segmentLocations.add(new Point(-10, -10));
+            segments.add(new Segment(context, mMoveRange, mSegmentSize));
             return true;
         }
         return false;
@@ -124,18 +120,14 @@ class Snake extends MoveableObject {
     void draw(Canvas canvas, Paint paint) {
 
         // Don't run this code if ArrayList has nothing in it
-        if (!segmentLocations.isEmpty()) {
+        if (!segments.isEmpty()) {
             // All the code from this method goes here
             // Draw the head
             head.draw(canvas, paint);
 
             // Draw the snake body one block at a time
-            for (int i = 1; i < segmentLocations.size(); i++) {
-                canvas.drawBitmap(mBitmapBody,
-                        segmentLocations.get(i).x
-                                * mSegmentSize,
-                        segmentLocations.get(i).y
-                                * mSegmentSize, paint);
+            for (int i = 1; i < segments.size(); i++) {
+                segments.get(i).draw(canvas, paint);
             }
         }
     }
@@ -148,41 +140,6 @@ class Snake extends MoveableObject {
 
     // Handle changing direction
     void switchHeading(MotionEvent motionEvent) {
-
-        // Is the tap on the right hand side?
-        if (motionEvent.getX() >= halfWayPoint) {
-            switch (heading) {
-                // Rotate right
-                case UP:
-                    heading = Heading.RIGHT;
-                    break;
-                case RIGHT:
-                    heading = Heading.DOWN;
-                    break;
-                case DOWN:
-                    heading = Heading.LEFT;
-                    break;
-                case LEFT:
-                    heading = Heading.UP;
-                    break;
-
-            }
-        } else {
-            // Rotate left
-            switch (heading) {
-                case UP:
-                    heading = Heading.LEFT;
-                    break;
-                case LEFT:
-                    heading = Heading.DOWN;
-                    break;
-                case DOWN:
-                    heading = Heading.RIGHT;
-                    break;
-                case RIGHT:
-                    heading = Heading.UP;
-                    break;
-            }
-        }
+        head.rotateHeading(motionEvent.getX() >= halfWayPoint);
     }
 }
