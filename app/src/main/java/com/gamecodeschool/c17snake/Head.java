@@ -8,7 +8,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-class Head extends MoveableObject {
+class Head extends MoveableObject implements IMovable {
     // TODO: Add documentation comments
 
     // TODO: Define file for BMap
@@ -29,6 +29,7 @@ class Head extends MoveableObject {
         setmBitmap(context, s);
     }
 
+    // Updates the heading and changes the display bitmap to the correct rotation
     @Override
     public void rotateHeading(boolean clockwise) {
         if (clockwise) {
@@ -75,6 +76,7 @@ class Head extends MoveableObject {
         }
     }
 
+    // Sets up bitmaps for each of the rotation directions
     @Override
     void setmBitmap(Context context, int s) {
         // Create and scale the bitmaps

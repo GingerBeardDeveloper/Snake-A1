@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-class Segment extends MoveableObject {
+class Segment extends MoveableObject implements IMovable{
     // How big is the entire grid
     private Point mMoveRange;
 
@@ -28,5 +28,4 @@ class Segment extends MoveableObject {
                 .createScaledBitmap(mBitmap,
                         s, s, false);
     }
-
 }

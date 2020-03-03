@@ -1,6 +1,6 @@
 package com.gamecodeschool.c17snake;
 
-abstract class MoveableObject extends GameObject {
+abstract class MoveableObject extends GameObject implements IMovable {
     // TODO: Add documentation comments
 
     public MoveableObject() {
@@ -54,18 +54,33 @@ abstract class MoveableObject extends GameObject {
         }
     }
 
-    /**
-     *
-     * @return
-     */
+    // Moves the head based on the current heading
+    @Override
+    public void move() {
+        // Move it appropriately
+        switch (heading) {
+            case UP:
+                location.y--;
+                break;
+
+            case RIGHT:
+                location.x++;
+                break;
+
+            case DOWN:
+                location.y++;
+                break;
+
+            case LEFT:
+                location.x--;
+                break;
+        }
+    }
+
     protected Heading getHeading() {
         return heading;
     }
 
-    /**
-     *
-     * @param newHeading
-     */
     protected void setHeading(Heading newHeading) {
         heading = newHeading;
     }

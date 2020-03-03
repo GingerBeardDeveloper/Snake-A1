@@ -78,30 +78,6 @@ class Snake extends MoveableObject {
             segmentLocations.get(i).x = segmentLocations.get(i - 1).x;
             segmentLocations.get(i).y = segmentLocations.get(i - 1).y;
         }
-
-        // Move the head in the appropriate heading
-        // Get the existing head position
-        Point p = segmentLocations.get(0);
-
-        // Move it appropriately
-        switch (heading) {
-            case UP:
-                p.y--;
-                break;
-
-            case RIGHT:
-                p.x++;
-                break;
-
-            case DOWN:
-                p.y++;
-                break;
-
-            case LEFT:
-                p.x--;
-                break;
-        }
-
     }
 
     boolean detectDeath() {

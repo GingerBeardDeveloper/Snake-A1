@@ -48,9 +48,8 @@ class Apple extends GameObject {
     // This is called every time an apple is eaten
     void spawn(){
         // Choose two random values and place the apple
-        Random random = new Random();
-        location.x = random.nextInt(mSpawnRange.x) + 1;
-        location.y = random.nextInt(mSpawnRange.y - 1) + 1;
+        location.x = rand.nextInt(mSpawnRange.x) + 1;
+        location.y = rand.nextInt(mSpawnRange.y - 1) + 1;
     }
 
     public boolean isGood() {
